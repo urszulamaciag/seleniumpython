@@ -1,48 +1,27 @@
 import time
-from selenium.webdriver import Chrome
 
-from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
-from webdriver_manager.chrome import ChromeDriverManager
+from fixtures.chrome import chrome_browser
 
 
-def test_searching_in_duckduckgo():
-    # Uruchomienie przeglądarki Chrome. Ścieżka do chromedrivera
-    # ustawiana automatycznie przez bibliotekę webdriver-manager
-    service = Service(ChromeDriverManager().install())
-    browser = Chrome(service=service)
+def test_searching_in_duckduckgo(chrome_browser):
+    chrome_browser.get('https://duckduckgo.com')
+    chrome_browser.find_element(By.CSS_SELECTOR, '#searchbox_input').send_keys('4testers')
+    chrome_browser.find_element(By.CSS_SELECTOR, '[aria-label=Search]').click()
+    title_elements = chrome_browser.find_elements(By.CSS_SELECTOR, '[data-testid=result-title-a] span')
 
-    # Otwarcie strony duckduckgo
-    browser.get('https://duckduckgo.com')
-
-    # Znalezienie paska wyszukiwania
-    browser.find_element(By.CSS_SELECTOR, '#searchbox_input').send_keys('4testers')
-
-    # Znalezienie guzika wyszukiwania (lupki)
-    browser.find_element(By.CSS_SELECTOR, '[aria-label=Search]').click()
-
-    # Sprawdzamy że znaleleźliśmy nasz kurs w wynikach wyszukiwania
-    title_elements = browser.find_elements(By.CSS_SELECTOR, '[data-testid=result-title-a] span')
-
-    # Zamknięcie przeglądarki
     time.sleep(2)
     assert check_text_presence(title_elements, '4_testers Automaty')
-    browser.quit()
 
 
-def test_searching_in_bing():
-    service = Service(ChromeDriverManager().install())
-    browser = Chrome(service=service)
-    browser.get('https://bing.com')
-
-    search_input = browser.find_element(By.CSS_SELECTOR, '#sb_form_q')
+def test_searching_in_bing(chrome_browser):
+    chrome_browser.get('https://bing.com')
+    search_input = chrome_browser.find_element(By.CSS_SELECTOR, '#sb_form_q')
     search_input.send_keys('4testers')
     search_input.submit()
-
     time.sleep(3)
-    title_elements = browser.find_elements(By.CSS_SELECTOR, 'h2 a')
+    title_elements = chrome_browser.find_elements(By.CSS_SELECTOR, 'h2 a')
     assert check_text_presence(title_elements, '4_testers Automaty')
-    browser.quit()
 
 
 def check_text_presence(elements, text):
