@@ -1,6 +1,8 @@
 import time
 
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.wait import WebDriverWait
+
 from fixtures.chrome import chrome_browser
 
 
@@ -19,8 +21,10 @@ def test_searching_in_bing(chrome_browser):
     search_input = chrome_browser.find_element(By.CSS_SELECTOR, '#sb_form_q')
     search_input.send_keys('4testers')
     search_input.submit()
-    time.sleep(3)
-    title_elements = chrome_browser.find_elements(By.CSS_SELECTOR, 'h2 a')
+    wait = WebDriverWait(chrome_browser, 10)
+    title_selector = (By.CSS_SELECTOR, 'h2 a')
+    wait.until(lambda x: len(chrome_browser.find_elements(*title_selector)) >= 4)
+    title_elements = chrome_browser.find_elements(*title_selector)
     assert check_text_presence(title_elements, '4_testers Automaty')
 
 
