@@ -9,5 +9,6 @@ from webdriver_manager.chrome import ChromeDriverManager
 def chrome_browser():
     service = Service(ChromeDriverManager().install())
     browser = Chrome(service=service)
+    browser.set_window_size(1920, 1080)
     yield browser
     browser.quit()

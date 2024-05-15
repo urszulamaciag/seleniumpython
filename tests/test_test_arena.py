@@ -13,11 +13,8 @@ administrator_email = 'administrator@testarena.pl'
 
 @pytest.fixture
 def browser(chrome_browser):
-    chrome_browser.set_window_size(1920, 1080)
-    chrome_browser.get('http://demo.testarena.pl/zaloguj')
     login_page = LoginPage(chrome_browser)
-    login_page.attempt_login('administrator@testarena.pl', 'sumXQQ72$L')
-
+    login_page.open_page().attempt_login('administrator@testarena.pl', 'sumXQQ72$L')
     yield chrome_browser
 
 
