@@ -6,6 +6,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 
 from fixtures.chrome import chrome_browser
+from pages.login_page import LoginPage
 
 administrator_email = 'administrator@testarena.pl'
 
@@ -14,9 +15,9 @@ administrator_email = 'administrator@testarena.pl'
 def browser(chrome_browser):
     chrome_browser.set_window_size(1920, 1080)
     chrome_browser.get('http://demo.testarena.pl/zaloguj')
-    chrome_browser.find_element(By.CSS_SELECTOR, '#email').send_keys(administrator_email)
-    chrome_browser.find_element(By.CSS_SELECTOR, '#password').send_keys('sumXQQ72$L')
-    chrome_browser.find_element(By.CSS_SELECTOR, '#login').click()
+    login_page = LoginPage(chrome_browser)
+    login_page.attempt_login('administrator@testarena.pl', 'sumXQQ72$L')
+
     yield chrome_browser
 
 
