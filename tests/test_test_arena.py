@@ -1,26 +1,19 @@
-import pytest
 import random
 import string
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
-
 from fixtures.chrome import chrome_browser
-from pages.login_page import LoginPage
+from fixtures.testarena.login import browser
+from pages.home_page import HomePage
 
 administrator_email = 'administrator@testarena.pl'
 
 
-@pytest.fixture
-def browser(chrome_browser):
-    login_page = LoginPage(chrome_browser)
-    login_page.open_page().attempt_login('administrator@testarena.pl', 'sumXQQ72$L')
-    yield chrome_browser
-
-
 def test_successful_login(browser):
-    user_email = browser.find_element(By.CSS_SELECTOR, ".user-info small")
-    assert administrator_email == user_email.text
+    home_page = HomePage(browser)
+    user_email = home_page.get_current_user_email()
+    assert administrator_email == user_email
 
 
 def test_add_message(browser):
