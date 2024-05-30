@@ -31,5 +31,5 @@ def test_search_project(browser):
 
     project_list_page = ProjectListPage(browser)
     project_list_page.search_project_on_project_list(my_project_name)
-    # project_list_page.verify_project_added('my_project_name')
+    # project_list_page.verify_project_added(my_project_name)
     assert project_list_page.is_project_in_list(my_project_name), f"Project '{my_project_name}' not found in the project list."
