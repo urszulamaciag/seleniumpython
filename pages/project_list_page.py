@@ -5,16 +5,14 @@ from selenium.webdriver.support import expected_conditions as EC
 
 
 class ProjectListPage:
-    project_suffix = (By.CLASS_NAME, 't_number')
-    project_name_listed = (By.CSS_SELECTOR, 'td:nth-child(1)')
     project_search_input = (By.ID, 'search')
     project_search_icon = (By.ID, 'j_searchButton')
-    back_to_project_list_button = (By.CLASS_NAME, 'icon_puzzle_alt')
+    project_name_listed = (By.CSS_SELECTOR, 'td:nth-child(1)')
 
     def __init__(self, browser):
         self.browser = browser
         self.wait = WebDriverWait(browser, 10)
-    #
+
     # def verify_project_added(self, my_project_name):
     #     try:
     #         self.wait.until(lambda x: any(my_project_name in element.text for element in
