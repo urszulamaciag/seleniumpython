@@ -6,3 +6,4 @@ tests/__pycache__/
 venv
 utils
 __pycache__
+.DS_Store
